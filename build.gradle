@@ -1,0 +1,32 @@
+buildscript {
+    // Serves as a global variable
+    ext.kotlin_version = '1.4.30'
+    // Defines where we get our dependencies
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // Retrieves the Kotlin gradle plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+
+
+}
+// (2)
+apply plugin: 'kotlin'
+// (3)
+repositories {
+    mavenCentral()
+}
+// (4)
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'me.inver.app.MainKt'
+    }
+
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
